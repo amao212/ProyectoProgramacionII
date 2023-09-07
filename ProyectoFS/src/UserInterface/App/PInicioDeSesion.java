@@ -81,10 +81,13 @@ public class PInicioDeSesion extends JFrame {
 
                 if (usuario.equals("admin") && contraseña.equals("admin")) {
                     JOptionPane.showMessageDialog(null, "Bienvenido");
+                    PMenu menu = new PMenu();
+                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "El usuario o la contraseña no son correctas");
                 }
             }
+            
         });
     }
     /**

@@ -2,6 +2,8 @@ package UserInterface.App;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class PFacturacion extends JFrame {
@@ -219,6 +221,18 @@ public class PFacturacion extends JFrame {
 
         // Hacer visible la ventana
         frame.setVisible(true);
+
+        btnRegresarAlMenu.addActionListener(new ActionListener(){
+
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PRegistros r;
+                PMenu menu = new PMenu();
+                frame.dispose();
+            }
+    
+        });
     }
 
 }

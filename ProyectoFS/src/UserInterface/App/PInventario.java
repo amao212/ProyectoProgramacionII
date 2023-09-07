@@ -99,7 +99,18 @@ public class PInventario extends JFrame {
         add(panel);
 
         setLocationRelativeTo(null); // Centrar el frame en la pantalla
- 
+
+        
+        btnRegresar.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PRegistros r;
+                PMenu menu = new PMenu();
+                dispose();
+                
+            }
+    
+        });
     }
     
     public void showTable() throws AppException {

@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -16,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Framework.AppException;
 import UserInterface.CustomerControl.BuButton;
 import UserInterface.CustomerControl.BuLabel;
 
@@ -68,6 +71,55 @@ public class PMenu {
 
         // Hacer visible el JFrame
         frame.setVisible(true);
+
+        btnRegistros.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PRegistros r;
+                try {
+                    r = new PRegistros();
+                    r.setVisible(true);
+                    frame.dispose();
+                } catch (AppException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+                
+            }
+
+        });
+
+        btnInventario.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PInventario in = new PInventario();
+                    in.setVisible(true);
+                    frame.dispose();
+                    
+                } catch (Exception e2) {
+                    // TODO: handle exception
+                }
+            }
+
+
+        });
+        btnNuevaFac.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PFacturacion p = new PFacturacion();
+                    frame.dispose();
+                } catch (Exception e3) {
+                    // TODO: handle exception
+                }
+            }
+
+
+        });
     
     }
     

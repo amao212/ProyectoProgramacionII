@@ -438,6 +438,47 @@ public class PRegistros extends JFrame{
         f.add(panel);
 
         setLocationRelativeTo(null);
+
+        btnRegresar.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PRegistros r;
+            PMenu menu = new PMenu();
+            dispose();
+            
+        }
+
+    });
+    btnRegresar2.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PRegistros r;
+            PMenu menu = new PMenu();
+            dispose();
+            
+        }
+
+    });
+    btnRegresar3.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PRegistros r;
+            PMenu menu = new PMenu();
+            dispose();
+            
+        }
+
+    });
+    btnRegresar4.addActionListener(new ActionListener(){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            PRegistros r;
+            PMenu menu = new PMenu();
+            dispose();
+            
+        }
+
+    });
         
     }
 
@@ -478,5 +519,6 @@ public class PRegistros extends JFrame{
             index3++;
         }
      }
+
     
 }
