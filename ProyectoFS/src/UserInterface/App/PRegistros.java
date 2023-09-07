@@ -26,7 +26,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import BusinessLogic.FacturaBL;
+import BusinessLogic.InventarioBL;
+import BusinessLogic.UsuarioBL;
 import BusinessLogic.Entities.Factura;
+import BusinessLogic.Entities.Inventario;
+import BusinessLogic.Entities.Usuario;
 import Framework.AppException;
 
 public class PRegistros extends JFrame{
@@ -34,6 +38,9 @@ public class PRegistros extends JFrame{
         private JMenuBar menuBar;
         private JMenu menu;
         private JMenuItem menuItem1, menuItem2, menuItem3, menuItem4, menuItem5;
+        private InventarioBL  inventarioBL  = new InventarioBL();
+        String[] columnNames3 = {"Producto", "Cantidad", "Precio"};
+        Object[][] data3;
 
     public PRegistros() throws AppException {
         JFrame f = new JFrame("REGISTROS");
@@ -127,23 +134,22 @@ public class PRegistros extends JFrame{
 
         
         panel2 = new JPanel(new BorderLayout());
-         
+        UsuarioBL usuarioBL = new UsuarioBL();
          // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames2 = {"Producto", "Cantidad", "Precio", "lol"};
-        Object[][] data2 = {
-            {"Producto 1", 10, 20.0,0},
-            {"Producto 2", 15, 15.5,0},
-            {"Producto 3", 20, 10.0,0},
-            {"Producto 1", 10, 20.0,0},
-            {"Producto 2", 15, 15.5,0},
-            {"Producto 3", 20, 10.0,0},
-            {"Producto 1", 10, 20.0,0},
-            {"Producto 2", 15, 15.5,0},
-            {"Producto 3", 20, 10.0,0},
-            
-        };
+        String[] etiquetas = {"Usuario", "Contraseña", "nombre","apellido","cedula"};
+        Object[][] dato = new Object[usuarioBL.obtenerDatos().size()][8];
+        int inde = 0;
+        for (Usuario usuario : usuarioBL.obtenerDatos()) {
+            dato[inde][0]= usuario.getCredencial();
+            dato[inde][1]= usuario.getPassword();
+            dato[inde][2]= usuario.getNombre();
+            dato[inde][3]= usuario.getApellido();
+            dato[inde][4]= usuario.getCedula();
 
-        JTable table2 = new JTable(data2, columnNames2);
+            inde ++;
+        }
+
+        JTable table2 = new JTable(dato, etiquetas);
         JScrollPane scrollPane2 = new JScrollPane(table2);
         table2.setBackground(Color.GRAY);
         panel2.add(scrollPane2, 0);
@@ -160,18 +166,20 @@ public class PRegistros extends JFrame{
         JLabel lblCiEmpleado      = new JLabel("Ci Empleado:");
         JLabel lblNombreEmpleado   = new JLabel("Nombre :");
         JLabel lblApellidoEmpleado            = new JLabel("Apellido :");
-        JLabel lblva1 = new JLabel("hola mundo"); 
-        JLabel lblva2 = new JLabel("");
-        JLabel lblva3 = new JLabel(""); 
-        JLabel lblva4 = new JLabel("");
+        JLabel lblUsuario = new JLabel("Usuario"); 
+        JLabel lblContrasena = new JLabel("Contraseña");
         JLabel lblva5 = new JLabel(""); 
         JLabel lblva6 = new JLabel("");
-       
+
         lblCiEmpleado.setHorizontalAlignment(0);
         lblNombreEmpleado.setHorizontalAlignment(0);
-        lblApellidoEmpleado.setHorizontalAlignment(0);   
+        lblApellidoEmpleado.setHorizontalAlignment(0);
+        lblUsuario.setHorizontalAlignment(0);
+        lblContrasena.setHorizontalAlignment(0);   
 
         JTextField txtCiEmpleado      = new JTextField();
+        JTextField txtUsuario      = new JTextField();
+        JTextField txtContrasena      = new JTextField();
         JTextField txtNombreEmpleado  = new JTextField();
         JTextField txtApellidoEmpleado        = new JTextField();
 
@@ -182,13 +190,13 @@ public class PRegistros extends JFrame{
         bottomPanel2.add(txtNombreEmpleado);
         bottomPanel2.add(lblApellidoEmpleado);
         bottomPanel2.add(txtApellidoEmpleado);
-        bottomPanel2.add(lblva1);
-        bottomPanel2.add(lblva2);
-        bottomPanel2.add(lblva3);
-        bottomPanel2.add(lblva4);
+        bottomPanel2.add(lblUsuario);
+        bottomPanel2.add(txtUsuario);
+        bottomPanel2.add(lblContrasena);
+        bottomPanel2.add(txtContrasena);
         bottomPanel2.add(lblva5);
         bottomPanel2.add(lblva6);
-    
+
         bottomPanel2.add(btnRegresar2);
         bottomPanel2.add(btnRegistrarEmpleado);
         bottomPanel2.add(btnEliminarEmpleado);
@@ -198,23 +206,10 @@ public class PRegistros extends JFrame{
         bottomPanel2.setBackground(Color.GRAY);
         panel2.add(bottomPanel2, BorderLayout.SOUTH);
 
-        
         panel3 = new JPanel(new BorderLayout());
 
         // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames3 = {"Producto", "Cantidad", "Precio"};
-        Object[][] data3 = {
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            
-        };
+        showTable();
 
         JTable table3 = new JTable(data3, columnNames3);
         JScrollPane scrollPane3 = new JScrollPane(table3);
@@ -472,5 +467,16 @@ public class PRegistros extends JFrame{
         gbc.gridy = 4;       gbc.gridx=0; 
         gbc.gridwidth=1;    
     }
+
+    public void showTable() throws AppException {
+        data3 = new Object[inventarioBL.getAllInventario().size()][3];  
+        int index3 = 0;
+        for(Inventario s : inventarioBL.getAllInventario()) {
+            data3[index3][0] = s.getNombreProduto();
+            data3[index3][1] = s.getCantidadProducto();
+            data3[index3][2] = s.getPvpProducto();
+            index3++;
+        }
+     }
     
 }

@@ -14,7 +14,7 @@ public class App {
         //PMenu menu = new PMenu();
         //PFacturacion p = new PFacturacion();
         PInventario in = new PInventario();
-        //in.setVisible(true);
+        in.setVisible(true);
         PRegistros r = new PRegistros();
         r.setVisible(true);
         //SQLiteDataHelper.openConnection();
