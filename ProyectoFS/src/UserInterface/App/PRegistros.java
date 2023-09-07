@@ -25,8 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import BusinessLogic.ClienteBL;
 import BusinessLogic.FacturaBL;
 import BusinessLogic.UsuarioBL;
+import BusinessLogic.Entities.Cliente;
 import BusinessLogic.Entities.Factura;
 import BusinessLogic.Entities.Usuario;
 import Framework.AppException;
@@ -56,19 +58,22 @@ public class PRegistros extends JFrame{
         // Crear los paneles
         panel1 = new JPanel(new BorderLayout());
          // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames = {"Producto", "Cantidad", "Precio"};
-        Object[][] data = {
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            
-        };
+        ClienteBL ClienteBL = new ClienteBL();
+        String[] columnNames = {"IdCliente", "Nombre", "Apellido", "Cedula", "Direccion", "Correo", "Estado", "Creditos"};
+        Object[][] data = new Object[ClienteBL.getAllCliente().size()][7];  
+        int index = 0;
+        for(Cliente s : ClienteBL.getAllCliente()) {
+            data[index][0] = s.getIdCliente();
+            data[index][1] = s.getNombre();
+            data[index][2] = s.getApellido();
+            data[index][3] = s.getCedula();
+            data[index][4] = s.getDireccion();
+            data[index][5] = s.getCorreo();
+            data[index][6] = s.getEstado();
+            data[index][7] = s.getCreditos();
+            index++;
+        }
+
 
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -354,7 +359,7 @@ public class PRegistros extends JFrame{
                             "FechaIngreso",
                             "FechaModificado"};
         Object[][] datos = new Object[facturaBL.obtenerDatos().size()][8];
-        int index = 0;
+        index = 0;
         for (Factura factura : facturaBL.obtenerDatos()) {
             datos[index][0]= factura.getIdFactura();
             datos[index][1]= factura.getUsuarioId();
