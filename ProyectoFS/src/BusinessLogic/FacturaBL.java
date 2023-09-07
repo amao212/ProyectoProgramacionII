@@ -16,9 +16,9 @@ public class FacturaBL {
             ResultSet rs = new FacturaDAC().getAllData();
             while (rs.next()) {
                 Factura f = new Factura(rs.getInt("Id_Factura"),
-                                        rs.getInt("usuario_Id"),
-                                        rs.getInt("cliente_Id_Cliente"),
-                                        rs.getInt("inventario_Id"),
+                                        rs.getString("usuario_Credencial"),
+                                        rs.getString("cliente_Nombre"),
+                                        rs.getString("inventario_Nombre_Producto"),
                                         rs.getString("estado_Factura"),
                                         rs.getString("total_Factura"),
                                         rs.getString("fechaIngreso_Factura"),

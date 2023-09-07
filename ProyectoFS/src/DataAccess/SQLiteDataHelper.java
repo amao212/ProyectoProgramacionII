@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import Framework.AppException;
 
 public abstract class SQLiteDataHelper {
-    private static String DBPathConnection = "jdbc:sqlite:database\\SistemaFacturacion.db"; //null;
+    private static String DBPathConnection = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db"; //null;
     private static Connection conn = null;
     public SQLiteDataHelper(){
         // if (!dbPathConnection.isEmpty())

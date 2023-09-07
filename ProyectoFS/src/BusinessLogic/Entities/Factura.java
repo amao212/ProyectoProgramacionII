@@ -2,18 +2,18 @@ package BusinessLogic.Entities;
 
 public class Factura {
     private Integer idFactura;
-    private Integer usuarioId;
-    private Integer clienteIdCliente;
-    private Integer inventarioId;
+    private String usuarioId;
+    private String clienteIdCliente;
+    private String inventarioId;
     private String  estadoFactura;
     private String  totalFactura;
     private String  fechaIngresFactura;
     private String  fechaModificacionFactura;
 
     public Factura( Integer idFactura, 
-                    Integer usuarioId, 
-                    Integer clienteIdCliente, 
-                    Integer inventarioId,
+                    String usuarioId, 
+                    String clienteIdCliente, 
+                    String inventarioId,
                     String estadoFactura, 
                     String totalFactura, 
                     String fechaIngresFactura, 
@@ -38,30 +38,30 @@ public class Factura {
         this.idFactura = idFactura;
     }
 
-    public Integer getUsuarioId() {
+    public String getUsuarioId() {
         return usuarioId;
     }
 
 
-    public void setUsuarioId(Integer usuarioId) {
+    public void setUsuarioId(String usuarioId) {
         this.usuarioId = usuarioId;
     }
 
-    public Integer getClienteIdCliente() {
+    public String getClienteIdCliente() {
         return clienteIdCliente;
     }
 
 
-    public void setClienteIdCliente(Integer clienteIdCliente) {
+    public void setClienteIdCliente(String clienteIdCliente) {
         this.clienteIdCliente = clienteIdCliente;
     }
 
-    public Integer getInventarioId() {
+    public String getInventarioId() {
         return inventarioId;
     }
 
 
-    public void setInventarioId(Integer inventarioId) {
+    public void setInventarioId(String inventarioId) {
         this.inventarioId = inventarioId;
     }
 
