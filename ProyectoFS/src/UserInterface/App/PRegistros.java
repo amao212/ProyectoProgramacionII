@@ -25,11 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import BusinessLogic.ClienteBL;
 import BusinessLogic.FacturaBL;
+import BusinessLogic.InventarioBL;
 import BusinessLogic.UsuarioBL;
-import BusinessLogic.Entities.Cliente;
 import BusinessLogic.Entities.Factura;
+import BusinessLogic.Entities.Inventario;
 import BusinessLogic.Entities.Usuario;
 import Framework.AppException;
 
@@ -38,6 +38,9 @@ public class PRegistros extends JFrame{
         private JMenuBar menuBar;
         private JMenu menu;
         private JMenuItem menuItem1, menuItem2, menuItem3, menuItem4, menuItem5;
+        private InventarioBL  inventarioBL  = new InventarioBL();
+        String[] columnNames3 = {"Producto", "Cantidad", "Precio"};
+        Object[][] data3;
 
     public PRegistros() throws AppException {
         JFrame f = new JFrame("REGISTROS");
@@ -58,22 +61,19 @@ public class PRegistros extends JFrame{
         // Crear los paneles
         panel1 = new JPanel(new BorderLayout());
          // Crear una tabla para mostrar los productos en el inventario
-        ClienteBL ClienteBL = new ClienteBL();
-        String[] columnNames = {"IdCliente", "Nombre", "Apellido", "Cedula", "Direccion", "Correo", "Estado", "Creditos"};
-        Object[][] data = new Object[ClienteBL.getAllCliente().size()][7];  
-        int index = 0;
-        for(Cliente s : ClienteBL.getAllCliente()) {
-            data[index][0] = s.getIdCliente();
-            data[index][1] = s.getNombre();
-            data[index][2] = s.getApellido();
-            data[index][3] = s.getCedula();
-            data[index][4] = s.getDireccion();
-            data[index][5] = s.getCorreo();
-            data[index][6] = s.getEstado();
-            data[index][7] = s.getCreditos();
-            index++;
-        }
-
+        String[] columnNames = {"Producto", "Cantidad", "Precio"};
+        Object[][] data = {
+            {"Producto 1", 10, 20.0},
+            {"Producto 2", 15, 15.5},
+            {"Producto 3", 20, 10.0},
+            {"Producto 1", 10, 20.0},
+            {"Producto 2", 15, 15.5},
+            {"Producto 3", 20, 10.0},
+            {"Producto 1", 10, 20.0},
+            {"Producto 2", 15, 15.5},
+            {"Producto 3", 20, 10.0},
+            
+        };
 
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -209,19 +209,7 @@ public class PRegistros extends JFrame{
         panel3 = new JPanel(new BorderLayout());
 
         // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames3 = {"Producto", "Cantidad", "Precio"};
-        Object[][] data3 = {
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            
-        };
+        showTable();
 
         JTable table3 = new JTable(data3, columnNames3);
         JScrollPane scrollPane3 = new JScrollPane(table3);
@@ -359,7 +347,7 @@ public class PRegistros extends JFrame{
                             "FechaIngreso",
                             "FechaModificado"};
         Object[][] datos = new Object[facturaBL.obtenerDatos().size()][8];
-        index = 0;
+        int index = 0;
         for (Factura factura : facturaBL.obtenerDatos()) {
             datos[index][0]= factura.getIdFactura();
             datos[index][1]= factura.getUsuarioId();
@@ -479,5 +467,16 @@ public class PRegistros extends JFrame{
         gbc.gridy = 4;       gbc.gridx=0; 
         gbc.gridwidth=1;    
     }
+
+    public void showTable() throws AppException {
+        data3 = new Object[inventarioBL.getAllInventario().size()][3];  
+        int index3 = 0;
+        for(Inventario s : inventarioBL.getAllInventario()) {
+            data3[index3][0] = s.getNombreProduto();
+            data3[index3][1] = s.getCantidadProducto();
+            data3[index3][2] = s.getPvpProducto();
+            index3++;
+        }
+     }
     
 }

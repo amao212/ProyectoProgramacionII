@@ -18,31 +18,26 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-public class PInventario extends JFrame {
+import BusinessLogic.InventarioBL;
+import BusinessLogic.Entities.Inventario;
+import Framework.AppException;
 
-    public PInventario(){
+public class PInventario extends JFrame {
+    private InventarioBL  inventarioBL  = new InventarioBL();
+    private Inventario    inventario    = null;
+    String[] columnNames = {"Producto", "Cantidad", "Precio"};
+    Object[][] data;
+
+    public PInventario()throws AppException{
        
        JFrame frame = new JFrame("Inventario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700,700);
+        showTable();
         
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames = {"Producto", "Cantidad", "Precio"};
-        Object[][] data = {
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            
-        };
 
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -104,8 +99,18 @@ public class PInventario extends JFrame {
         add(panel);
 
         setLocationRelativeTo(null); // Centrar el frame en la pantalla
-        
-        
+ 
+    }
+    
+    public void showTable() throws AppException {
+       data = new Object[inventarioBL.getAllInventario().size()][3];  
+       int index = 0;
+       for(Inventario s : inventarioBL.getAllInventario()) {
+           data[index][0] = s.getNombreProduto();
+           data[index][1] = s.getCantidadProducto();
+           data[index][2] = s.getPvpProducto();
+           index++;
+       }
     }
     
         

@@ -31,19 +31,23 @@ CREATE TABLE USUARIO
 
 INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) 
 VALUES ("42398429","adm","ad","49303471","adminn","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) 
+VALUES ("admin","admin","admin","admin","admin","A",DATE(),DATE());
 
 CREATE TABLE INVENTARIO
 (
 	Inventario_Id					INTEGER		PRIMARY KEY AUTOINCREMENT,
 	Inventario_Codigo_Producto		Integer		NOT NULL,
 	Inventario_Nombre_Producto		VARCHAR(10)	NOT NULL,
-	Inventario_Costo_Producto		MONEY
-	Inventario_Cantidad				INTEGER		NOT NULL,
+	Inventario_Costo_Producto		MONEY,
+	Inventario_Cantidad			    INTEGER		NOT NULL,
 	Inventario_Estado				VARCHAR(10)	DEFAULT ('A'),
-	Inventario_PVP_Producto			MONEY
+	Inventario_PVP_Producto		    MONEY,
 	Inventario_FechaIngreso			DATETIME	NOT NULL,
 	Inventario_FechaModificacion	DATETIME	NOT NULL
 );
+
+
 
 CREATE TABLE FACTURA
 (
@@ -60,14 +64,18 @@ CREATE TABLE FACTURA
 	FOREIGN KEY (Inventario_Id) 		REFERENCES 	INVENTARIO(Inventario_Id)
 
 );
-INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura)
-VALUES (1,2,3,"A","3243",DATE(),DATE());
 
-SELECT Id_Factura, b.Usuario_Id, c.Cliente_Nombre, d. Inventario_Nombre_Producto
-FROM FACTURA a
-JOIN USUARIO b  ON a.Usuario_Id = b.Usuario_Id
-JOIN CLIENTE c 	ON a.Cliente_Id_Cliente = c.Cliente_Id_Cliente
-JOIN INVENTARIO d 	ON a.Inventario_Id = d.Inventario_Id
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("admin",1,"adm","ad","a","adminn","A",DATE(),DATE());
+INSERT INTO INVENTARIO (Inventario_Codigo_Producto, Inventario_Nombre_Producto, Inventario_Costo_Producto, Inventario_Cantidad, Inventario_PVP_Producto, Inventario_FechaIngreso, Inventario_FechaModificacion)
+VALUES 
+       (101, 'Teléfono Móvil XS', 300.00, 10, 400.00, '2023-09-05 10:00:00', '2023-09-05 10:00:00'),
+       (102, 'Portátil Ultra Slim', 700.00, 5, 900.00, '2023-09-05 11:00:00', '2023-09-05 11:00:00'),
+       (103, 'Audífonos Inalámbricos', 50.00, 25, 80.00, '2023-09-05 12:00:00', '2023-09-05 12:00:00'),
+       (104, 'Reloj Inteligente Pro', 150.00, 20, 210.00, '2023-09-06 09:00:00', '2023-09-06 09:30:00'),
+       (105, 'Teclado Mecánico RGB', 40.00, 15, 65.00, '2023-09-06 10:15:00', '2023-09-06 10:45:00'),
+       (106, 'Tablet Gráfica Deluxe', 120.00, 10, 160.00, '2023-09-06 11:00:00', '2023-09-06 11:30:00'),
+       (107, 'Cámara DSLR 20MP', 500.00, 8, 650.00, '2023-09-06 12:00:00', '2023-09-06 12:30:00'),
+       (108, 'Ratón Ergonómico', 25.00, 30, 35.00, '2023-09-06 14:00:00', '2023-09-06 14:30:00'),
+       (109, 'Micrófono USB Studio', 80.00, 12, 110.00, '2023-09-06 15:00:00', '2023-09-06 15:30:00'),
+       (110, 'Monitor 27" 4K', 250.00, 6, 320.00, '2023-09-06 16:00:00', '2023-09-06 16:30:00');
 
 
