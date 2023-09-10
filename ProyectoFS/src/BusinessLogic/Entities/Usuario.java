@@ -1,15 +1,13 @@
 package BusinessLogic.Entities;
 
 public class Usuario {
-    private Integer idUsuario;  
+   
     private String credencial,
      password,
      nombre,
      apellido,
-     cedula,
-     estado,
-     fechaIngreso,
-     fechaModificacion;
+     cedula;
+
      public Usuario(Integer idUsuario , 
                     String credencial,
                     String password,
@@ -19,15 +17,13 @@ public class Usuario {
                     String estado,
                     String fechaIngreso,
                     String fechaModificacion){
-            this.idUsuario =idUsuario;
+     
             this.credencial = credencial;
             this.password = password;
             this.nombre = nombre;
             this.apellido = apellido;
             this.cedula = cedula;
-            this.estado = estado;
-            this.fechaIngreso = fechaIngreso;
-            this.fechaModificacion = fechaModificacion;
+
 
      }
 

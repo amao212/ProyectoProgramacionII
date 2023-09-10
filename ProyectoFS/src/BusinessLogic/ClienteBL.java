@@ -10,15 +10,7 @@ import Framework.AppException;
 
 public class ClienteBL {
     
-    public Integer getMaxIdCliente() {
-        try {
-            ResultSet rs =   new ClienteDAC().getMaxIdCliente();
-            return  rs.getInt("maxIdCliente"); 
-        } 
-        catch (Exception e) {
-            return 0;
-        }
-    } 
+
 
     public List<Cliente> getAllCliente() throws AppException{
         try {
@@ -27,14 +19,14 @@ public class ClienteBL {
 
             ResultSet rs =  ClienteDAC.getAllCliente();
             while(rs.next())    {
-                Cliente c = new Cliente(  rs.getInt(   "IdCliente"),
-                                    rs.getString("Nombre"),
-                                    rs.getString("Apellido"),
-                                    rs.getString("Cedula"),
-                                    rs.getString("Direccion"),
-                                    rs.getString("Correo"),
-                                    rs.getString("Estado"),
-                                    rs.getInt("Créditos"));
+                Cliente c = new Cliente(  rs.getInt(   "Cliente_Id_Cliente"),
+                                    rs.getString("Cliente_Nombre"),
+                                    rs.getString("Cliente_Apellido"),
+                                    rs.getString("Cliente_Cedula"),
+                                    rs.getString("Cliente_Direccion"),
+                                    rs.getString("Cliente_Correo"),
+                                    rs.getString("Cliente_Estado"),
+                                    rs.getInt("Cliente_NumeroCreditos"));
 
                 lstCliente.add(c);
             }
@@ -44,38 +36,5 @@ public class ClienteBL {
             throw new AppException(e,"GetAllCliente");
         }
     } 
-    
-    public Cliente getClienteById(int idCliente) throws AppException{
-        try {
-            ClienteDAC ClienteDAC = new ClienteDAC(); 
-            ResultSet rs =  ClienteDAC.getClienteById(idCliente);
-            if(rs.next())    
-                return new Cliente(  rs.getInt("IdCliente"),
-                                    rs.getString("Nombre"),
-                                    rs.getString("Apellido"),
-                                    rs.getString("Cedula"),
-                                    rs.getString("Direccion"),
-                                    rs.getString("Correo"),
-                                    rs.getString("Estado"),
-                                    rs.getInt("Créditos"));
-
-            return null;
-        } 
-        catch (Exception e) {
-            throw new AppException(e, getClass(),"GetAllCliente");
-        }
-    } 
-
-    public boolean createCliente(Cliente c) throws AppException{
-        return new ClienteDAC().insertCliente(c.getNombre());
-    } 
-    public boolean updateCliente(Cliente c) throws AppException{
-        return new ClienteDAC().updateCliente(c.getIdCliente(), c.getNombre());
-    } 
-    public boolean deleteCliente(int IdCliente) throws AppException{
-        return new ClienteDAC().deleteCliente(IdCliente);
-    } 
-
-
     
 }
