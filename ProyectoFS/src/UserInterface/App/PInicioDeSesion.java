@@ -6,6 +6,11 @@ import UserInterface.CustomerControl.BuLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PInicioDeSesion extends JFrame {
     private JPanel panel;
@@ -76,15 +81,35 @@ public class PInicioDeSesion extends JFrame {
         btnIngresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String usuario = txtUsuario.getText();
-                String contraseña = new String(txtContraseña.getPassword());
+                String dbUrl = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
+        
+                try {
+                    Connection conn = DriverManager.getConnection(dbUrl);
+                    String username = txtUsuario.getText();
+                    char[] arrayC = txtContraseña.getPassword();
+                    String password = new String(arrayC);
 
-                if (usuario.equals("admin") && contraseña.equals("admin")) {
-                    JOptionPane.showMessageDialog(null, "Bienvenido");
-                    PMenu menu = new PMenu();
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "El usuario o la contraseña no son correctas");
+                    String sql = "SELECT * FROM USUARIO WHERE Usuario_Credencial=? AND Usuario_PASSWORD=?";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setString(1, username);
+                    preparedStatement.setString(2, password);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    if (resultSet.next()) {
+                        
+                        JOptionPane.showMessageDialog(null,"Inicio de sesión exitoso");
+                        dispose();
+                        PMenu menu = new PMenu();
+                        
+                        // Aquí puedes redirigir al usuario a la parte principal de tu aplicación.
+                    } else {
+                        JOptionPane.showMessageDialog(null,"El usuario o la contraseña son incorrectos, inténtalo de nuevo");
+                        // Aquí puedes mostrar un mensaje de error en la interfaz de usuario.
+                    }
+
+                    conn.close();
+                } catch (SQLException a) {
+                    a.printStackTrace();
                 }
             }
             

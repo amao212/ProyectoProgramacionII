@@ -9,7 +9,7 @@ import UserInterface.App.PRegistros;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        PPanatallaCarga.mostrarPantallaDeCargaP();
+        //PPanatallaCarga.mostrarPantallaDeCargaP();
         PInicioDeSesion.mostrarInicio();
         //PMenu menu = new PMenu();
         //PFacturacion p = new PFacturacion();

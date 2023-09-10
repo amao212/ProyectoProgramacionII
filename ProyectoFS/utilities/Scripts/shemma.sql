@@ -42,16 +42,16 @@ CREATE TABLE USUARIO
 );
 
 
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","clave1234","Diana","Ramirez","1000934234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Administrador","948343434","Olga","Ruiz","419342342","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Administrador","usuaraio3","Ruben","Hernandez","10034234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","cla445454","Carlos","Rodríguez","10056545234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","323423444","Sonia","Castaño","10243434234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","gato12344","Fernanda","Cortéz","1005434234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","perro5425","Angelica","Figuras","10054535234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","lobo32424","Sofía","Casas","1053434234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","fasldfja4","Cristina","Ortiz","10534234234","A",DATE(),DATE());
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("Empleado","1234343ga","Jhonathan","Romero","1005543234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("diana12","clave1234","Diana","Ramirez","1000934234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("olga12","948343434","Olga","Ruiz","419342342","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("admin","admin","Ruben","Hernandez","10034234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("carlos12","cla445454","Carlos","Rodríguez","10056545234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("sonia12","323423444","Sonia","Castaño","10243434234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("fernanda12","gato12344","Fernanda","Cortéz","1005434234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("angelica12","perro5425","Angelica","Figuras","10054535234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("sofia12","lobo32424","Sofía","Casas","1053434234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("cristina12","fasldfja4","Cristina","Ortiz","10534234234","A",DATE(),DATE());
+INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("jhonathan12","1234343ga","Jhonathan","Romero","1005543234","A",DATE(),DATE());
 
 
 CREATE TABLE INVENTARIO

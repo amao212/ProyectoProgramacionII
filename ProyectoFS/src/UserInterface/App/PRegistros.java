@@ -267,71 +267,6 @@ public class PRegistros extends JFrame{
         bottomPanel3.setBackground(Color.GRAY);
         panel3.add(bottomPanel3, BorderLayout.SOUTH);
         
-        
-        panel4 = new JPanel(new BorderLayout());
-
-        // Crear una tabla para mostrar los productos en el inventario
-        String[] columnNames4 = {"Producto", "Cantidad", "Precio"};
-        Object[][] data4 = {
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            {"Producto 1", 10, 20.0},
-            {"Producto 2", 15, 15.5},
-            {"Producto 3", 20, 10.0},
-            
-        };
-
-        JTable table4 = new JTable(data4, columnNames4);
-        JScrollPane scrollPane4 = new JScrollPane(table4);
-        table4.setBackground(Color.GRAY);
-        panel4.add(scrollPane4, BorderLayout.CENTER);
-
-        JPanel bottomPanel4 = new JPanel();
-        bottomPanel4.setLayout(new GridLayout(3,4));
-
-        // Crear un botón para agregar un nuevo producto al inventario
-        JButton btnAgregarCreditos = new JButton("Agregar Creditos");
-        JButton btnEliminarCreditos= new JButton("Eliminar Creditos");
-        JButton btnConsultarCreditos = new JButton("Consultar Creditos");
-        JButton btnRegresar4 = new JButton("Regresar");
-
-        JLabel lblCiCliente2        = new JLabel("Ci Cliente:");
-        JLabel lblCantidadCreditos   = new JLabel("Cantidad Creditos:");
-        JLabel lblva7 = new JLabel(""); 
-        JLabel lblva8 = new JLabel("");
-        JLabel lblva9 = new JLabel(""); 
-        JLabel lblva10 = new JLabel("");
-
-        
-
-        lblCiCliente2.setHorizontalAlignment(lblCiCliente2.CENTER);
-        lblCantidadCreditos.setHorizontalAlignment(lblCantidadCreditos.CENTER);      
-
-        JTextField txtCiCliente2        = new JTextField();
-        JTextField txtCantidadCreditos    = new JTextField();
-
-
-        bottomPanel4.add(lblCiCliente2);
-        bottomPanel4.add(txtCiCliente2);
-        bottomPanel4.add(lblCantidadCreditos);
-        bottomPanel4.add(txtCantidadCreditos);
-        bottomPanel4.add(lblva7);
-        bottomPanel4.add(lblva8);
-        bottomPanel4.add(lblva9);
-        bottomPanel4.add(lblva10);
-        bottomPanel4.add(btnRegresar4);
-        bottomPanel4.add(btnAgregarCreditos);
-        bottomPanel4.add(btnEliminarCreditos);
-        bottomPanel4.add(btnConsultarCreditos);
-
-
-        bottomPanel4.setBackground(Color.GRAY);
-        panel4.add(bottomPanel4, BorderLayout.SOUTH);
-
 
         
         panel5 = new JPanel(new BorderLayout());
@@ -377,8 +312,7 @@ public class PRegistros extends JFrame{
         menuItem1 = new JMenuItem("Registro Clientes");
         menuItem2 = new JMenuItem("Registro Empleados");
         menuItem3 = new JMenuItem("Registro Inventario");
-        menuItem4 = new JMenuItem("Registro Creditos");
-        menuItem5 = new JMenuItem("Registro Facturas");
+        menuItem4 = new JMenuItem("Registro Facturas");
 
         // Agregar ActionListener a cada elemento del menú para cambiar de panel
         menuItem1.addActionListener(new ActionListener() {
@@ -405,15 +339,8 @@ public class PRegistros extends JFrame{
             }
         });
 
-        menuItem4.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setContentPane(panel4);
-                revalidate();
-            }
-        });
 
-        menuItem5.addActionListener(new ActionListener() {
+        menuItem4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setContentPane(panel5);
@@ -426,7 +353,6 @@ public class PRegistros extends JFrame{
         menu.add(menuItem2);
         menu.add(menuItem3);
         menu.add(menuItem4);
-        menu.add(menuItem5);
 
         
 
@@ -469,16 +395,7 @@ public class PRegistros extends JFrame{
         }
 
     });
-    btnRegresar4.addActionListener(new ActionListener(){
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            PRegistros r;
-            PMenu menu = new PMenu();
-            dispose();
-            
-        }
 
-    });
         
     }
 

@@ -23,11 +23,12 @@ public class PFacturacion extends JFrame {
         topPanel.setBorder(BorderFactory.createTitledBorder("Información de la Factura"));
         topPanel.setLayout(new GridLayout(5, 2));
 
-        JLabel nombreCajero = new JLabel("Cajero:");
-        JLabel idCajero = new JLabel("idCajero:");
+       
         JLabel nombreCajero1 = new JLabel("");
         JLabel idCajero1 = new JLabel("");
         JLabel vaclbl = new JLabel("");
+        JLabel vaclbl1 = new JLabel("");
+        JLabel vaclb2 = new JLabel("");
 
 
         JLabel lblCi = new JLabel("CI:");
@@ -52,13 +53,13 @@ public class PFacturacion extends JFrame {
         lblCorreo   .setHorizontalAlignment(0);
         lblTelefono .setHorizontalAlignment(0);
         lblDireccion.setHorizontalAlignment(0);
-        nombreCajero.setHorizontalAlignment(0);
-        idCajero    .setHorizontalAlignment(0);
+                
         
-        
-        topPanel.add(nombreCajero);
+      
         topPanel.add(nombreCajero1);
-        topPanel.add(idCajero);
+        topPanel.add(vaclbl1);
+        topPanel.add(vaclb2);
+    
         topPanel.add(idCajero1);
         topPanel.add(lblCi);
         topPanel.add(txtCi);
