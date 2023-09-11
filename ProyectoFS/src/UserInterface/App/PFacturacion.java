@@ -1,8 +1,19 @@
 package UserInterface.App;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Document;
+
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.EmailAttachment;
+import org.apache.commons.mail.MultiPartEmail;
+
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -11,6 +22,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.FileOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import java.awt.*;
@@ -18,7 +30,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.IOException;
+import java.net.Authenticator;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -29,6 +43,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.Properties;
 import java.util.Vector;
 import com.itextpdf.text.Image;
 
@@ -36,7 +51,7 @@ public class PFacturacion extends JFrame {
     double sumaPrecioTotal = 0.0;
     double sumaPrecioS = 0.0;
     String usu;
-    
+
     public PFacturacion() {
         // Crear una ventana JFrame
         JFrame frame = new JFrame("Sistema de Facturación");
@@ -526,165 +541,209 @@ public class PFacturacion extends JFrame {
                     JOptionPane.showMessageDialog(frame, "Todos los campos deben estar llenos. ", "Aviso",
                             JOptionPane.WARNING_MESSAGE);
                 } else {
-                    String archivoPdf = txtCi.getText() + ".pdf"; // Nombre del archivo PDF de salida
 
                     try {
-                        // Crear un nuevo documento PDF
-                        com.itextpdf.text.Document documento = new com.itextpdf.text.Document();
 
-                        // Crear un objeto PdfWriter para escribir en el archivo PDF
-                        PdfWriter.getInstance(documento, new FileOutputStream(archivoPdf));
+                    String nombreArchivo = txtCi.getText()+txtTotal.getText() + ".pdf";
+                    String carpetaDestino = "PDF";
 
-                        // Abrir el documento para escritura
-                        documento.open();
-                        // Obtener la fecha y hora actual
-                        Date fechaHoraActual = new Date();
+                    // Verificar si la carpeta de destino existe, si no, crearla
+                    File carpeta = new File(carpetaDestino);
+                    if (!carpeta.exists()) {
+                    carpeta.mkdir();
+                    }
 
-                        // Formatear la fecha y hora actual como una cadena
-                        SimpleDateFormat formatoFechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        String fechaHoraFormateada = formatoFechaHora.format(fechaHoraActual);
+                    // Ruta completa del archivo PDF incluyendo la carpeta de destino
+                    String rutaCompleta = carpetaDestino + "\\" + nombreArchivo;
+                    // Crear un nuevo documento PDF
+                    com.itextpdf.text.Document documento = new com.itextpdf.text.Document();
 
-                        try {
-                            Image imagen = Image.getInstance("ProyectoFS\\src\\UserInterface\\img\\buhologo.jpg");
-                            imagen.scaleAbsolute(200, 200);
-                            imagen.setAbsolutePosition(0, 0);
-                            documento.add(imagen);
-                        } catch (MalformedURLException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
+                    // Crear un objeto PdfWriter para escribir en el archivo PDF
+                    PdfWriter.getInstance(documento, new FileOutputStream(rutaCompleta));
 
-                        // Agregar contenido a la factura (personaliza esto según tus necesidades)
-                        Paragraph encabezado = new Paragraph("Factura");
-                        Paragraph detallesCliente = new Paragraph(
-                                "Cédula:      " + txtCi.getText()
-                                        + "\nCliente:      " + txtNombre.getText()
-                                        + "\nDirección:  " + txtDireccion.getText()
-                                        +"\nCorreo:      "+txtCorreo.getText());
-                        Paragraph detallesFactura = new Paragraph("Fecha:        " + fechaHoraFormateada + "\n\n");
+                    // Abrir el documento para escritura
+                    documento.open();
+                    // Obtener la fecha y hora actual
 
-                        // Crear una tabla para la lista de productos
-                        PdfPTable tablaProductos = new PdfPTable(5); // 5 columnas para Nombre Producto, Precio
-                                                                     // Unitario, Cantidad, Precio Sin Iva, Precio Total
-                        tablaProductos.setWidthPercentage(100);
+                    try {
+                    Image imagen =
+                    Image.getInstance("ProyectoFS\\src\\UserInterface\\img\\buhologo.jpg");
+                    imagen.scaleAbsolute(200, 200);
+                    imagen.setAbsolutePosition(0, 0);
+                    documento.add(imagen);
+                    } catch (MalformedURLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    } catch (IOException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                    }
 
-                        // Agregar encabezados de la tabla
-                        PdfPCell celdaNombre = new PdfPCell(new Phrase("Nombre Producto"));
-                        PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio Unitario"));
-                        PdfPCell celdaCantidad = new PdfPCell(new Phrase("Cantidad"));
-                        PdfPCell celdaPrecioSinIva = new PdfPCell(new Phrase("Precio Sin Iva"));
-                        PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio Total"));
+                    Date fechaHoraActual = new Date();
 
-                        tablaProductos.addCell(celdaNombre);
-                        tablaProductos.addCell(celdaPrecioUnitario);
-                        tablaProductos.addCell(celdaCantidad);
-                        tablaProductos.addCell(celdaPrecioSinIva);
-                        tablaProductos.addCell(celdaPrecioTotal);
+                    // Formatear la fecha y hora actual como una cadena
+                    SimpleDateFormat formatoFechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String fechaHoraFormateada = formatoFechaHora.format(fechaHoraActual);
 
-                        // Obtener los datos de la JTable existente y agregarlos a la tabla del PDF
-                        int numRows = model.getRowCount();
+                    // Agregar contenido a la factura (personaliza esto según tus necesidades)
+                    Paragraph encabezado = new Paragraph("Factura");
+                    Paragraph detallesCliente = new Paragraph(
+                    "Cédula: " + txtCi.getText()
+                    + "\nCliente: " + txtNombre.getText()
+                    + "\nDirección: " + txtDireccion.getText()
+                    + "\nCorreo: " + txtCorreo.getText());
+                    Paragraph detallesFactura = new Paragraph("Fecha: " + fechaHoraFormateada +
+                    "\n\n");
 
-                        for (int row = 0; row < numRows; row++) {
-                            String nombreProducto = model.getValueAt(row, 0).toString();
-                            String precioUnitario = model.getValueAt(row, 1).toString();
-                            String cantidad = model.getValueAt(row, 2).toString();
-                            String precioSinIva = model.getValueAt(row, 3).toString();
-                            String precioTotal = model.getValueAt(row, 4).toString();
+                    // Crear una tabla para la lista de productos
+                    PdfPTable tablaProductos = new PdfPTable(5); // 5 columnas para NombreProducto, Precio
+                    // Unitario, Cantidad, Precio Sin Iva, Precio Total
+                    tablaProductos.setWidthPercentage(100);
 
-                            tablaProductos.addCell(nombreProducto);
-                            tablaProductos.addCell(precioUnitario);
-                            tablaProductos.addCell(cantidad);
-                            tablaProductos.addCell(precioSinIva);
-                            tablaProductos.addCell(precioTotal);
-                        }
+                    // Agregar encabezados de la tabla
+                    PdfPCell celdaNombre = new PdfPCell(new Phrase("Nombre Producto"));
+                    PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio Unitario"));
+                    PdfPCell celdaCantidad = new PdfPCell(new Phrase("Cantidad"));
+                    PdfPCell celdaPrecioSinIva = new PdfPCell(new Phrase("Precio Sin Iva"));
+                    PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio Total"));
 
-                        JRadioButton seleccionado = getSelectedRadioButton(grupo1);
+                    tablaProductos.addCell(celdaNombre);
+                    tablaProductos.addCell(celdaPrecioUnitario);
+                    tablaProductos.addCell(celdaCantidad);
+                    tablaProductos.addCell(celdaPrecioSinIva);
+                    tablaProductos.addCell(celdaPrecioTotal);
 
-                        // Obtiene el nombre o texto del botón de radio seleccionado
-                        String nombreSeleccionado = seleccionado.getText();
+                    // Obtener los datos de la JTable existente y agregarlos a la tabla del PDF
+                    int numRows = model.getRowCount();
 
-                        Paragraph total = new Paragraph("Forma de pago:  " + nombreSeleccionado
-                                + "\nSubTotal:           " + txtSubtotal.getText()
-                                + "\nIva:                     " + txtIva.getText()
-                                + "\nTotal:                  " + txtTotal.getText());
+                    for (int row = 0; row < numRows; row++) {
+                    String nombreProducto = model.getValueAt(row, 0).toString();
+                    String precioUnitario = model.getValueAt(row, 1).toString();
+                    String cantidad = model.getValueAt(row, 2).toString();
+                    String precioSinIva = model.getValueAt(row, 3).toString();
+                    String precioTotal = model.getValueAt(row, 4).toString();
 
-                        // Agregar los párrafos al documento
-                        
-                        documento.add(encabezado);
-                        documento.add(detallesCliente);
-                        documento.add(detallesFactura);
-                        documento.add(tablaProductos);
-                        documento.add(total);
+                    tablaProductos.addCell(nombreProducto);
+                    tablaProductos.addCell(precioUnitario);
+                    tablaProductos.addCell(cantidad);
+                    tablaProductos.addCell(precioSinIva);
+                    tablaProductos.addCell(precioTotal);
+                    }
 
-                        // Cerrar el documento
-                        documento.close();
-                        JOptionPane.showMessageDialog(null, "Factura generada con éxito en " + archivoPdf);
-                        
+                    JRadioButton seleccionado = getSelectedRadioButton(grupo1);
+
+                    // Obtiene el nombre o texto del botón de radio seleccionado
+                    String nombreSeleccionado = seleccionado.getText();
+
+                    Paragraph total = new Paragraph("Forma de pago: " + nombreSeleccionado
+                    + "\nSubTotal: " + txtSubtotal.getText()
+                    + "\nIva: " + txtIva.getText()
+                    + "\nTotal: " + txtTotal.getText());
+
+                    // Agregar los párrafos al documento
+
+                    documento.add(encabezado);
+                    documento.add(detallesCliente);
+                    documento.add(detallesFactura);
+                    documento.add(tablaProductos);
+                    documento.add(total);
+
+                    // Cerrar el documento
+                    documento.close();
+                    JOptionPane.showMessageDialog(null, "Factura generada con éxito en " +
+                    nombreArchivo);
+
                     } catch (FileNotFoundException | DocumentException l) {
-                        l.printStackTrace();
+                    l.printStackTrace();
                     }
-
+                    // //*************************************************************************************
+                    
                     String url = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
-            
+
                     try {
-                        Connection conexión = DriverManager.getConnection(url);
-                        
-                        // Paso 1: Obtener el idUsuario basado en el nombre de usuario
-                        PInicioDeSesion i = new PInicioDeSesion();
-                       
-                        String Usuario_Cedula = i.obtenerUsu(usu);
-                        String queryObtenerId = "SELECT Usuario_Id FROM USUARIO WHERE Usuario_Cedula = ?";
-                        PreparedStatement preparedStatementObtenerId = conexión.prepareStatement(queryObtenerId);
-                        preparedStatementObtenerId.setString(1, Usuario_Cedula);
-                        
-                        ResultSet resultado = preparedStatementObtenerId.executeQuery();
-                        int Usuario_Id = -1; // Valor predeterminado en caso de que no se encuentre el usuario
-                        
-                        if (resultado.next()) {
-                            Usuario_Id = resultado.getInt("Usuario_Id");
-                        }
+                    Connection conexión = DriverManager.getConnection(url);
 
-                        String Cliente_Cedula = txtCi.getText();
-                        String queryObtener = "SELECT Cliente_Id_Cliente FROM CLIENTE WHERE Cliente_Cedula = ?";
-                        PreparedStatement preparedStatementObtener = conexión.prepareStatement(queryObtener);
-                        preparedStatementObtener.setString(1,Cliente_Cedula);
-                        
-                        ResultSet resultado1 = preparedStatementObtener.executeQuery();
-                        int Cliente_Id_Cliente = -1; // Valor predeterminado en caso de que no se encuentre el usuario
-                        
-                        if (resultado1.next()) {
-                            Cliente_Id_Cliente = resultado1.getInt("Cliente_Id_Cliente");
-                        }
-                        String Inventario_Id = "5";
-                        String Total_Factura = txtTotal.getText();
-                        // Paso 2: Insertar un nuevo cliente utilizando el idUsuario obtenido
-                        String queryInsertarCliente = "INSERT INTO FACTURA (Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (?, ?, ?, ?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
-                        PreparedStatement preparedStatementInsertarCliente = conexión.prepareStatement(queryInsertarCliente);
-                        preparedStatementInsertarCliente.setInt(1, Usuario_Id); // Utiliza el idUsuario obtenido
-                        preparedStatementInsertarCliente.setInt(2, Cliente_Id_Cliente);
-                        preparedStatementInsertarCliente.setString(3, Inventario_Id);
-                        preparedStatementInsertarCliente.setString(4, Total_Factura);
-                        
-                        // Ejecuta el query de inserción
-                        preparedStatementInsertarCliente.executeUpdate();
-                        
-                        JOptionPane.showMessageDialog(null, "Factura agregado a la base de datos con éxito.");
+                    // Paso 1: Obtener el idUsuario basado en el nombre de usuario
+                    PInicioDeSesion i = new PInicioDeSesion();
 
-                        
-                        // Cierra las conexiones y los statements
-                        preparedStatementObtenerId.close();
-                        preparedStatementInsertarCliente.close();
-                        conexión.close();
-                    } catch (SQLException p) {
-                        p.printStackTrace();
+                    String Usuario_Cedula = i.obtenerUsu(usu);
+                    String queryObtenerId = "SELECT Usuario_Id FROM USUARIO WHERE Usuario_Cedula= ?";
+                    PreparedStatement preparedStatementObtenerId =
+                    conexión.prepareStatement(queryObtenerId);
+                    preparedStatementObtenerId.setString(1, Usuario_Cedula);
+
+                    ResultSet resultado = preparedStatementObtenerId.executeQuery();
+                    int Usuario_Id = -1; // Valor predeterminado en caso de que no se encuentre el usuario
+
+                    if (resultado.next()) {
+                    Usuario_Id = resultado.getInt("Usuario_Id");
                     }
 
+                    String Cliente_Cedula = txtCi.getText();
+                    String queryObtener = "SELECT Cliente_Id_Cliente FROM CLIENTE WHERECliente_Cedula = ?";
+                    PreparedStatement preparedStatementObtener =
+                    conexión.prepareStatement(queryObtener);
+                    preparedStatementObtener.setString(1, Cliente_Cedula);
 
+                    ResultSet resultado1 = preparedStatementObtener.executeQuery();
+                    int Cliente_Id_Cliente = -1; // Valor predeterminado en caso de que no sencuentre el usuario
 
+                    if (resultado1.next()) {
+                    Cliente_Id_Cliente = resultado1.getInt("Cliente_Id_Cliente");
+                    }
+                    String Inventario_Id = "5";
+                    String Total_Factura = txtTotal.getText();
+                    // Paso 2: Insertar un nuevo cliente utilizando el idUsuario obtenido
+                    String queryInsertarCliente = "INSERT INTO FACTURA (Usuario_Id,Cliente_Id_Cliente, Inventario_Id,Total_Factura,FechaIngreso_Factura,FechaModificacion_Factura) VALUES (?, ?, ?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+                    PreparedStatement preparedStatementInsertarCliente = conexión
+                    .prepareStatement(queryInsertarCliente);
+                    preparedStatementInsertarCliente.setInt(1, Usuario_Id); // Utiliza elidUsuario obtenido
+                    preparedStatementInsertarCliente.setInt(2, Cliente_Id_Cliente);
+                    preparedStatementInsertarCliente.setString(3, Inventario_Id);
+                    preparedStatementInsertarCliente.setString(4, Total_Factura);
 
+                    // Ejecuta el query de inserción
+                    preparedStatementInsertarCliente.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Factura agregado a la base de datos con éxito.");
+
+                    // Cierra las conexiones y los statements
+                    preparedStatementObtenerId.close();
+                    preparedStatementInsertarCliente.close();
+                    conexión.close();
+                    } catch (SQLException p) {
+                    p.printStackTrace();
+                    }
+                    // ******************************************************************************************
+                    // */
+
+                    // final String username = "buhoGroupSisFac@hotmail.com";
+                    // final String password = "qhbfujgmirgpwcfr";
+
+                    // Properties props = new Properties();
+                    // props.put("mail.smtp.auth", "true");
+                    // props.put("mail.smtp.starttls.enable", "true");
+                    // props.put("mail.smtp.host", "smtp.live.com"); // Cambia esto según el proveedor de correo
+                    // props.put("mail.smtp.port", "587"); // Cambia esto según el puerto de tu proveedor
+
+                    // Session session = Session.getDefaultInstance(props);
+
+                    // try {
+                    //     Message message = new MimeMessage(session);
+                    //     message.setFrom(new InternetAddress(username));
+                    //     message.setRecipients(Message.RecipientType.TO,
+                    //             InternetAddress.parse("christian.aragon@epn.edu.ec")); // Cambia esto al correo del
+                    //                                                                 // destinatario
+                    //     message.setSubject("Asunto del correo");
+                    //     message.setText("Este es un mensaje de prueba enviado desde JavaMail.");
+
+                    //     Transport.send(message);
+
+                    //     System.out.println("Correo enviado correctamente.");
+
+                    // } catch (MessagingException h) {
+                    //     throw new RuntimeException(h);
+                    // }
 
                 }
                 ;
@@ -692,10 +751,9 @@ public class PFacturacion extends JFrame {
             }
 
         });
-        
 
     }
-  
+
     // --------------------------------------------------------------------------------------------------------------
 
     private static boolean checkClienteExists(String cedula) {
@@ -809,5 +867,5 @@ public class PFacturacion extends JFrame {
     }
 
     // --------------------------------------------------------------------------------------------------------------
-    
+
 }

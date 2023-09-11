@@ -11,23 +11,22 @@ CREATE TABLE CLIENTE
 	Cliente_Direccion					VARCHAR(50)			NULL,
 	Cliente_Correo						VARCHAR(30)		NOT NULL,
 	Cliente_Estado						VARCHAR(20)		DEFAULT ('A'),
-	Cliente_NumeroCreditos				INTEGER 		NOT NULL,
 	Cliente_FechaIngreso				DATETIME		NOT NULL,
 	Cliente_FechaMod					DATETIME		NOT NULL
 );
 
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Javier","Bolívar",10088347535,"Quito","javiar@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Nelson","Bolívar",1008834753,"Quito","nelson@gmail.con","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Paola","Lozano",100883475,"Quito","paola@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Angel","Granadas",10088347,"Quito","angel@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Omar","Garzón",1008834,"Quito","omar@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Ovidiio","Ríos",100883,"Quito","ovidiio@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Mauricio","Gonzalez",10088,"Quito","mauricio@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Jimmy","Arias",1008,"Quito","jimmy@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Jose","Barrera",100,"Quito","jose@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Luis","Montoya",10,"Quito","luis@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Lina","Bolaños",1,"Quito","lina@gmail.com","A",56,DATE(),DATE());
-INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("ina","Bolños",1123,"Quito","ina@gmail.com","A",56,DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Javier","Bolívar",10088347535,"Quito","javiar@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Nelson","Bolívar",1008834753,"Quito","nelson@gmail.con","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Paola","Lozano",100883475,"Quito","paola@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Angel","Granadas",10088347,"Quito","angel@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Omar","Garzón",1008834,"Quito","omar@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Ovidiio","Ríos",100883,"Quito","ovidiio@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Mauricio","Gonzalez",10088,"Quito","mauricio@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Jimmy","Arias",1008,"Quito","jimmy@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Jose","Barrera",100,"Quito","jose@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Luis","Montoya",10,"Quito","luis@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Lina","Bolaños",1,"Quito","lina@gmail.com","A",DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("ina","Bolños",1123,"Quito","ina@gmail.com","A",DATE(),DATE());
 
 CREATE TABLE USUARIO
 (

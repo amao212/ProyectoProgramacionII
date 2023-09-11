@@ -2,6 +2,9 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "ProyectoFS/lib/sqlite-jdbc-3.40.0.0.jar",
-        "ProyectoFS/lib/itextpdf-5.4.1.jar"
+        "ProyectoFS/lib/itextpdf-5.4.1.jar",
+        "ProyectoFS/lib/commons-email-1.3.jar",
+        "ProyectoFS/lib/java-mail-1.4.4.jar",
+        "ProyectoFS/lib/activation.jar"
     ]
 }

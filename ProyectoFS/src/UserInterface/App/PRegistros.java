@@ -118,7 +118,7 @@ public class PRegistros extends JFrame {
         JTextField txtApellido = new JTextField();
         JTextField txtCorreo = new JTextField();
         JTextField txtDireccion = new JTextField();
-        JTextField txtCreditos = new JTextField();
+        
 
         bottomPanel.add(lblCiCliente);
         bottomPanel.add(txtCiCliente);
@@ -130,8 +130,7 @@ public class PRegistros extends JFrame {
         bottomPanel.add(txtCorreo);
         bottomPanel.add(lblDireccion);
         bottomPanel.add(txtDireccion);
-        bottomPanel.add(lblCreditos);
-        bottomPanel.add(txtCreditos);
+        
 
         bottomPanel.add(btnRegresar);
         bottomPanel.add(btnRegistrarCliente);
@@ -376,7 +375,7 @@ public class PRegistros extends JFrame {
                             txtNombre.setText("");
                             txtCorreo.setText("");
                             txtDireccion.setText("");
-                            txtCreditos.setText("");    
+                           
 
                         } else {
 
@@ -457,14 +456,14 @@ public class PRegistros extends JFrame {
                             String cc =resultSet.getString("Cliente_Cedula");
                             String cd =resultSet.getString("Cliente_Direccion");
                             String co =resultSet.getString("Cliente_Correo");
-                            String cnc  =resultSet.getString("Cliente_NumeroCreditos");
+                            
 
                             txtCiCliente.setText(cc);
                             txtApellido.setText(cp);
                             txtNombre.setText(cn);
                             txtCorreo.setText(co);
                             txtDireccion.setText(cd);
-                            txtCreditos.setText(cnc);                            
+                                                       
 
                             
                         }
@@ -489,7 +488,7 @@ public class PRegistros extends JFrame {
                             txtNombre.setText("");
                             txtCorreo.setText("");
                             txtDireccion.setText("");
-                            txtCreditos.setText("");    
+                             
             }
 
         });

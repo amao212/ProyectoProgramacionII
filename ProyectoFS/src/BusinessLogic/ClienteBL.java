@@ -25,8 +25,7 @@ public class ClienteBL {
                                     rs.getString("Cliente_Cedula"),
                                     rs.getString("Cliente_Direccion"),
                                     rs.getString("Cliente_Correo"),
-                                    rs.getString("Cliente_Estado"),
-                                    rs.getInt("Cliente_NumeroCreditos"));
+                                    rs.getString("Cliente_Estado"), null);
 
                 lstCliente.add(c);
             }
