@@ -69,7 +69,7 @@ public class PRegistros extends JFrame {
         panel1 = new JPanel(new BorderLayout());
         ClienteBL clienteBL = new ClienteBL();
         // Crear una tabla para mostrar los productos en el inventario
-        String[] etique = { "Ci Cliente", "Nombre", "Apellido", "Direccion", "Correo" , "Creditos" };
+        String[] etique = { "Ci Cliente", "Nombre", "Apellido", "Direccion", "Correo" };
         Object[][] dat = new Object[clienteBL.getAllCliente().size()][8];
         int ind = 0;
         for (Cliente cliente : clienteBL.getAllCliente()) {
@@ -78,7 +78,7 @@ public class PRegistros extends JFrame {
             dat[ind][2] = cliente.getApellido();
             dat[ind][3] = cliente.getDireccion();
             dat[ind][4] = cliente.getCorreo();
-            dat[ind][5] = cliente.getCreditos();
+            
 
             ind++;
         }
@@ -182,7 +182,7 @@ public class PRegistros extends JFrame {
         JLabel lblUsuario = new JLabel("Usuario");
         JLabel lblContrasena = new JLabel("Contraseña");
         JLabel lblva5 = new JLabel("");
-        JLabel lblva6 = new JLabel("");
+       
 
         lblCiEmpleado.setHorizontalAlignment(0);
         lblNombreEmpleado.setHorizontalAlignment(0);
@@ -326,8 +326,8 @@ public class PRegistros extends JFrame {
                 String a3 =txtNombre.getText() ;
                 String a4 =txtCorreo.getText() ;
                 String a5 =txtDireccion.getText(); 
-                String a6 =txtCreditos.getText(); 
-                if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty() || a6.isEmpty() ) {
+        
+                if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty() ) {
 
                         JOptionPane.showMessageDialog(null, "PARA REGISTRAR UN CLIENTE DEBE LLENAR TODOS LOS CAMPOS",
                                 "Error", JOptionPane.ERROR_MESSAGE);
@@ -345,7 +345,7 @@ public class PRegistros extends JFrame {
                     String Cliente_Nombre = txtNombre.getText();
                     String Cliente_Correo = txtCorreo.getText();
                     String Cliente_Direccion = txtDireccion.getText();
-                    String Cliente_NumeroCreditos = txtCreditos.getText();
+                   
 
                     String checkUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
                     PreparedStatement checkUserStatement = conn.prepareStatement(checkUserQuery);
@@ -356,14 +356,14 @@ public class PRegistros extends JFrame {
                         JOptionPane.showMessageDialog(null, "El cliente ya está registrado.");
                     } else {
                         // Si el usuario no está registrado, agregarlo.
-                        String insertUserQuery = "INSERT INTO CLIENTE (Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+                        String insertUserQuery = "INSERT INTO CLIENTE (Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_FechaIngreso,Cliente_FechaMod) VALUES (?,?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
                         PreparedStatement insertUserStatement = conn.prepareStatement(insertUserQuery);
                         insertUserStatement.setString(1, Cliente_Nombre);
                         insertUserStatement.setString(2, Cliente_Apellido);
                         insertUserStatement.setString(3, Cliente_Cedula);
                         insertUserStatement.setString(4, Cliente_Direccion);
                         insertUserStatement.setString(5, Cliente_Correo);
-                        insertUserStatement.setString(6, Cliente_NumeroCreditos);
+                       
 
                         // Ejecutar la consulta INSERT para agregar el usuario.
                         int rowsAffected = insertUserStatement.executeUpdate();
@@ -394,10 +394,11 @@ public class PRegistros extends JFrame {
         });
 
         btnEliminarCliente.addActionListener(new ActionListener(){
-            String a1 =txtCiCliente.getText();
+            
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                String a1 =txtCiCliente.getText();
                 if (a1.isEmpty() ) {
 
                         JOptionPane.showMessageDialog(null, "PARA ELIMINAR UN CLIENTE DEBE LLENAR EL CAMPO CI CLIENTE",
@@ -429,10 +430,11 @@ public class PRegistros extends JFrame {
 
         btnConsultarCliente.addActionListener(new ActionListener() {
             String dbUrl = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
-            String a1 =txtCiCliente.getText();
+            
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                String a1 =txtCiCliente.getText();
 
                 if (a1.isEmpty() ) {
 

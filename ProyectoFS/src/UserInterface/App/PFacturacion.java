@@ -261,6 +261,7 @@ public class PFacturacion extends JFrame {
                         String Cliente_Nombre = txtNombre.getText();
                         String Cliente_Correo = txtCorreo.getText();
                         String Cliente_Direccion = txtDireccion.getText();
+                        String Cliente_NumeroCreditos = txtCi.getText();
 
                         String checkUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
                         PreparedStatement checkUserStatement = conn.prepareStatement(checkUserQuery);
@@ -278,6 +279,7 @@ public class PFacturacion extends JFrame {
                             insertUserStatement.setString(3, Cliente_Cedula);
                             insertUserStatement.setString(4, Cliente_Direccion);
                             insertUserStatement.setString(5, Cliente_Correo);
+                            insertUserStatement.setString(6, Cliente_NumeroCreditos);
 
                             // Ejecutar la consulta INSERT para agregar el usuario.
                             int rowsAffected = insertUserStatement.executeUpdate();
@@ -290,7 +292,7 @@ public class PFacturacion extends JFrame {
                                 txtNombre.setText("");
                                 txtCorreo.setText("");
                                 txtDireccion.setText("");
-                                txtTelefono.setText("");
+                                
 
                             } else {
 
@@ -313,7 +315,12 @@ public class PFacturacion extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                String b1 = txtCi.getText();
 
+                if (b1.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "PARA CONSULTAR UN CLIENTE DEBE LLENAR EL CAMPO CI EMPLEADO",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                    }else{
                 String clienteConsultar = txtCi.getText();
                 boolean clienteExists = checkClienteExists(clienteConsultar);
 
@@ -346,7 +353,7 @@ public class PFacturacion extends JFrame {
                             JOptionPane.ERROR_MESSAGE);
                 }
 
-            }
+            }}
 
         });
 
