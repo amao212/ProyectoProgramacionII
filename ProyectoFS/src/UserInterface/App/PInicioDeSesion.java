@@ -86,6 +86,9 @@ public class PInicioDeSesion extends JFrame {
                     String username = txtUsuario.getText();
                     char[] arrayC = txtContraseña.getPassword();
                     String password = new String(arrayC);
+                    
+                    
+
 
                     String sql = "SELECT * FROM USUARIO WHERE Usuario_Credencial=? AND Usuario_PASSWORD=?";
                     PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -114,7 +117,10 @@ public class PInicioDeSesion extends JFrame {
 
         });
     }
+    public String obtenerUsu(String usu){
 
+    return usu = txtUsuario.getText();
+    }
     /**
      * Muestra la pantalla del inicio de sesión.
      */

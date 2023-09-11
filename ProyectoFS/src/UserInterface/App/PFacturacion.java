@@ -2,10 +2,23 @@ package UserInterface.App;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,12 +26,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Enumeration;
 import java.util.Vector;
+import com.itextpdf.text.Image;
 
 public class PFacturacion extends JFrame {
     double sumaPrecioTotal = 0.0;
     double sumaPrecioS = 0.0;
-
+    String usu;
+    
     public PFacturacion() {
         // Crear una ventana JFrame
         JFrame frame = new JFrame("Sistema de Facturación");
@@ -292,7 +310,6 @@ public class PFacturacion extends JFrame {
                                 txtNombre.setText("");
                                 txtCorreo.setText("");
                                 txtDireccion.setText("");
-                                
 
                             } else {
 
@@ -318,42 +335,43 @@ public class PFacturacion extends JFrame {
                 String b1 = txtCi.getText();
 
                 if (b1.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "PARA CONSULTAR UN CLIENTE DEBE LLENAR EL CAMPO CI EMPLEADO",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                String clienteConsultar = txtCi.getText();
-                boolean clienteExists = checkClienteExists(clienteConsultar);
-
-                if (clienteExists) {
-                    try (Connection conn = DriverManager.getConnection(dbUrl)) {
-                        String getUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
-                        PreparedStatement preparedStatement = conn.prepareStatement(getUserQuery);
-                        preparedStatement.setString(1, clienteConsultar);
-                        ResultSet resultSet = preparedStatement.executeQuery();
-
-                        if (resultSet.next()) {
-                            String cn = resultSet.getString("Cliente_Nombre");
-                            String cp = resultSet.getString("Cliente_Apellido");
-                            String cc = resultSet.getString("Cliente_Cedula");
-                            String cd = resultSet.getString("Cliente_Direccion");
-                            String co = resultSet.getString("Cliente_Correo");
-
-                            txtCi.setText(cc);
-                            txtApellido.setText(cp);
-                            txtNombre.setText(cn);
-                            txtCorreo.setText(co);
-                            txtDireccion.setText(cd);
-
-                        }
-                    } catch (SQLException o) {
-                        o.printStackTrace();
-                    }
+                    JOptionPane.showMessageDialog(null, "PARA CONSULTAR UN CLIENTE DEBE LLENAR EL CAMPO CI EMPLEADO",
+                            "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El cliente no existe en la base de datos.", "Error",
-                            JOptionPane.ERROR_MESSAGE);
-                }
+                    String clienteConsultar = txtCi.getText();
+                    boolean clienteExists = checkClienteExists(clienteConsultar);
 
-            }}
+                    if (clienteExists) {
+                        try (Connection conn = DriverManager.getConnection(dbUrl)) {
+                            String getUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
+                            PreparedStatement preparedStatement = conn.prepareStatement(getUserQuery);
+                            preparedStatement.setString(1, clienteConsultar);
+                            ResultSet resultSet = preparedStatement.executeQuery();
+
+                            if (resultSet.next()) {
+                                String cn = resultSet.getString("Cliente_Nombre");
+                                String cp = resultSet.getString("Cliente_Apellido");
+                                String cc = resultSet.getString("Cliente_Cedula");
+                                String cd = resultSet.getString("Cliente_Direccion");
+                                String co = resultSet.getString("Cliente_Correo");
+
+                                txtCi.setText(cc);
+                                txtApellido.setText(cp);
+                                txtNombre.setText(cn);
+                                txtCorreo.setText(co);
+                                txtDireccion.setText(cd);
+
+                            }
+                        } catch (SQLException o) {
+                            o.printStackTrace();
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El cliente no existe en la base de datos.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+            }
 
         });
 
@@ -451,7 +469,7 @@ public class PFacturacion extends JFrame {
                 String sumaSinIvaFormateada = df.format(sumaPrecioSinIva);
 
                 double dinero = Double.parseDouble(txtDineroPago.getText());
-                double d = dinero -  sumaPrecioTotal;
+                double d = dinero - sumaPrecioTotal;
                 String dine = df.format(d);
                 double iva = sumaPrecioTotal - sumaPrecioSinIva;
                 String ivaa = df.format(iva);
@@ -484,13 +502,200 @@ public class PFacturacion extends JFrame {
                 txtDineroPago.setText("");
 
                 model.setRowCount(0);
-                
+
             }
         });
 
         // --------------------------------------------------------------------------------------------------------------
 
+        btnImprimirFactura.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String im1 = txtCi.getText();
+                String im2 = txtNombre.getText();
+                String im3 = txtApellido.getText();
+                String im4 = txtDireccion.getText();
+                String im5 = txtCorreo.getText();
+                String im6 = txtTotal.getText();
+                String im7 = txtSubtotal.getText();
+                String im8 = txtIva.getText();
+
+                if (im1.isEmpty() || im2.isEmpty() || im3.isEmpty() || im4.isEmpty() || im5.isEmpty() || im6.isEmpty()
+                        || im7.isEmpty() || im8.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Todos los campos deben estar llenos. ", "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String archivoPdf = txtCi.getText() + ".pdf"; // Nombre del archivo PDF de salida
+
+                    try {
+                        // Crear un nuevo documento PDF
+                        com.itextpdf.text.Document documento = new com.itextpdf.text.Document();
+
+                        // Crear un objeto PdfWriter para escribir en el archivo PDF
+                        PdfWriter.getInstance(documento, new FileOutputStream(archivoPdf));
+
+                        // Abrir el documento para escritura
+                        documento.open();
+                        // Obtener la fecha y hora actual
+                        Date fechaHoraActual = new Date();
+
+                        // Formatear la fecha y hora actual como una cadena
+                        SimpleDateFormat formatoFechaHora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String fechaHoraFormateada = formatoFechaHora.format(fechaHoraActual);
+
+                        try {
+                            Image imagen = Image.getInstance("ProyectoFS\\src\\UserInterface\\img\\buhologo.jpg");
+                            imagen.scaleAbsolute(200, 200);
+                            imagen.setAbsolutePosition(0, 0);
+                            documento.add(imagen);
+                        } catch (MalformedURLException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
+                        // Agregar contenido a la factura (personaliza esto según tus necesidades)
+                        Paragraph encabezado = new Paragraph("Factura");
+                        Paragraph detallesCliente = new Paragraph(
+                                "Cédula:      " + txtCi.getText()
+                                        + "\nCliente:      " + txtNombre.getText()
+                                        + "\nDirección:  " + txtDireccion.getText()
+                                        +"\nCorreo:      "+txtCorreo.getText());
+                        Paragraph detallesFactura = new Paragraph("Fecha:        " + fechaHoraFormateada + "\n\n");
+
+                        // Crear una tabla para la lista de productos
+                        PdfPTable tablaProductos = new PdfPTable(5); // 5 columnas para Nombre Producto, Precio
+                                                                     // Unitario, Cantidad, Precio Sin Iva, Precio Total
+                        tablaProductos.setWidthPercentage(100);
+
+                        // Agregar encabezados de la tabla
+                        PdfPCell celdaNombre = new PdfPCell(new Phrase("Nombre Producto"));
+                        PdfPCell celdaPrecioUnitario = new PdfPCell(new Phrase("Precio Unitario"));
+                        PdfPCell celdaCantidad = new PdfPCell(new Phrase("Cantidad"));
+                        PdfPCell celdaPrecioSinIva = new PdfPCell(new Phrase("Precio Sin Iva"));
+                        PdfPCell celdaPrecioTotal = new PdfPCell(new Phrase("Precio Total"));
+
+                        tablaProductos.addCell(celdaNombre);
+                        tablaProductos.addCell(celdaPrecioUnitario);
+                        tablaProductos.addCell(celdaCantidad);
+                        tablaProductos.addCell(celdaPrecioSinIva);
+                        tablaProductos.addCell(celdaPrecioTotal);
+
+                        // Obtener los datos de la JTable existente y agregarlos a la tabla del PDF
+                        int numRows = model.getRowCount();
+
+                        for (int row = 0; row < numRows; row++) {
+                            String nombreProducto = model.getValueAt(row, 0).toString();
+                            String precioUnitario = model.getValueAt(row, 1).toString();
+                            String cantidad = model.getValueAt(row, 2).toString();
+                            String precioSinIva = model.getValueAt(row, 3).toString();
+                            String precioTotal = model.getValueAt(row, 4).toString();
+
+                            tablaProductos.addCell(nombreProducto);
+                            tablaProductos.addCell(precioUnitario);
+                            tablaProductos.addCell(cantidad);
+                            tablaProductos.addCell(precioSinIva);
+                            tablaProductos.addCell(precioTotal);
+                        }
+
+                        JRadioButton seleccionado = getSelectedRadioButton(grupo1);
+
+                        // Obtiene el nombre o texto del botón de radio seleccionado
+                        String nombreSeleccionado = seleccionado.getText();
+
+                        Paragraph total = new Paragraph("Forma de pago:  " + nombreSeleccionado
+                                + "\nSubTotal:           " + txtSubtotal.getText()
+                                + "\nIva:                     " + txtIva.getText()
+                                + "\nTotal:                  " + txtTotal.getText());
+
+                        // Agregar los párrafos al documento
+                        
+                        documento.add(encabezado);
+                        documento.add(detallesCliente);
+                        documento.add(detallesFactura);
+                        documento.add(tablaProductos);
+                        documento.add(total);
+
+                        // Cerrar el documento
+                        documento.close();
+                        JOptionPane.showMessageDialog(null, "Factura generada con éxito en " + archivoPdf);
+                        
+                    } catch (FileNotFoundException | DocumentException l) {
+                        l.printStackTrace();
+                    }
+
+                    String url = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
+            
+                    try {
+                        Connection conexión = DriverManager.getConnection(url);
+                        
+                        // Paso 1: Obtener el idUsuario basado en el nombre de usuario
+                        PInicioDeSesion i = new PInicioDeSesion();
+                       
+                        String Usuario_Cedula = i.obtenerUsu(usu);
+                        String queryObtenerId = "SELECT Usuario_Id FROM USUARIO WHERE Usuario_Cedula = ?";
+                        PreparedStatement preparedStatementObtenerId = conexión.prepareStatement(queryObtenerId);
+                        preparedStatementObtenerId.setString(1, Usuario_Cedula);
+                        
+                        ResultSet resultado = preparedStatementObtenerId.executeQuery();
+                        int Usuario_Id = -1; // Valor predeterminado en caso de que no se encuentre el usuario
+                        
+                        if (resultado.next()) {
+                            Usuario_Id = resultado.getInt("Usuario_Id");
+                        }
+
+                        String Cliente_Cedula = txtCi.getText();
+                        String queryObtener = "SELECT Cliente_Id_Cliente FROM CLIENTE WHERE Cliente_Cedula = ?";
+                        PreparedStatement preparedStatementObtener = conexión.prepareStatement(queryObtener);
+                        preparedStatementObtener.setString(1,Cliente_Cedula);
+                        
+                        ResultSet resultado1 = preparedStatementObtener.executeQuery();
+                        int Cliente_Id_Cliente = -1; // Valor predeterminado en caso de que no se encuentre el usuario
+                        
+                        if (resultado1.next()) {
+                            Cliente_Id_Cliente = resultado1.getInt("Cliente_Id_Cliente");
+                        }
+                        String Inventario_Id = "5";
+                        String Total_Factura = txtTotal.getText();
+                        // Paso 2: Insertar un nuevo cliente utilizando el idUsuario obtenido
+                        String queryInsertarCliente = "INSERT INTO FACTURA (Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (?, ?, ?, ?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)";
+                        PreparedStatement preparedStatementInsertarCliente = conexión.prepareStatement(queryInsertarCliente);
+                        preparedStatementInsertarCliente.setInt(1, Usuario_Id); // Utiliza el idUsuario obtenido
+                        preparedStatementInsertarCliente.setInt(2, Cliente_Id_Cliente);
+                        preparedStatementInsertarCliente.setString(3, Inventario_Id);
+                        preparedStatementInsertarCliente.setString(4, Total_Factura);
+                        
+                        // Ejecuta el query de inserción
+                        preparedStatementInsertarCliente.executeUpdate();
+                        
+                        JOptionPane.showMessageDialog(null, "Factura agregado a la base de datos con éxito.");
+
+                        
+                        // Cierra las conexiones y los statements
+                        preparedStatementObtenerId.close();
+                        preparedStatementInsertarCliente.close();
+                        conexión.close();
+                    } catch (SQLException p) {
+                        p.printStackTrace();
+                    }
+
+
+
+
+
+                }
+                ;
+
+            }
+
+        });
+        
+
     }
+  
     // --------------------------------------------------------------------------------------------------------------
 
     private static boolean checkClienteExists(String cedula) {
@@ -593,6 +798,16 @@ public class PFacturacion extends JFrame {
         return suma;
     }
 
-    // --------------------------------------------------------------------------------------------------------------
+    private static JRadioButton getSelectedRadioButton(ButtonGroup group) {
+        for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                return (JRadioButton) button;
+            }
+        }
+        return null;
+    }
 
+    // --------------------------------------------------------------------------------------------------------------
+    
 }

@@ -27,6 +27,7 @@ INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Dir
 INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Jose","Barrera",100,"Quito","jose@gmail.com","A",56,DATE(),DATE());
 INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Luis","Montoya",10,"Quito","luis@gmail.com","A",56,DATE(),DATE());
 INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("Lina","Bolaños",1,"Quito","lina@gmail.com","A",56,DATE(),DATE());
+INSERT INTO CLIENTE(Cliente_Nombre, Cliente_Apellido, Cliente_Cedula,Cliente_Direccion,Cliente_Correo,Cliente_Estado,Cliente_NumeroCreditos,Cliente_FechaIngreso,Cliente_FechaMod) VALUES ("ina","Bolños",1123,"Quito","ina@gmail.com","A",56,DATE(),DATE());
 
 CREATE TABLE USUARIO
 (
@@ -106,7 +107,7 @@ INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura
 INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (9,8,1,"A","1,80",DATE(),DATE());
 INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (9,9,2,"A","4,00",DATE(),DATE());
 INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (10,10,3,"A","4,00",DATE(),DATE());
-
+INSERT INTO FACTURA(Usuario_Id, Cliente_Id_Cliente, Inventario_Id,Estado_Factura,Total_Factura, FechaIngreso_Factura,FechaModificacion_Factura) VALUES (11,10,3,"A","4,00",DATE(),DATE());
 
 
 
@@ -115,6 +116,6 @@ FROM FACTURA a
 JOIN USUARIO b  ON a.Usuario_Id = b.Usuario_Id
 JOIN CLIENTE c 	ON a.Cliente_Id_Cliente = c.Cliente_Id_Cliente
 JOIN INVENTARIO d 	ON a.Inventario_Id = d.Inventario_Id
-INSERT INTO USUARIO (Usuario_Credencial, Usuario_PASSWORD, Usuario_Nombre, Usuario_Apellido, Usuario_Cedula, Usuario_Estado, Usuario_FechaIngreso, Usuario_FechaModificacion) VALUES ("admin",1,"adm","ad","a","adminn","A",DATE(),DATE());
+
 
 
