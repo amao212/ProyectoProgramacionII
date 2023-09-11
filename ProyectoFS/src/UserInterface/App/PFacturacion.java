@@ -12,11 +12,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.Vector;
 
 public class PFacturacion extends JFrame {
-    double sumaT;
-double sumaS;
+    double sumaPrecioTotal = 0.0;
+    double sumaPrecioS = 0.0;
 
     public PFacturacion() {
         // Crear una ventana JFrame
@@ -50,13 +51,12 @@ double sumaS;
         JTextField txtCorreo = new JTextField();
         JLabel lblDireccion = new JLabel("Direccion:");
         JTextField txtDireccion = new JTextField();
-        JLabel lblTelefono = new JLabel("Telefono:");
-        JTextField txtTelefono = new JTextField();
+        JLabel lblTelefono = new JLabel("");
+        JLabel txtTelefono = new JLabel("");
 
         JButton btnConsultar = new JButton("Consultar Cliente");
         JButton btnRegistrar = new JButton("Registrar Cliente");
         JButton btnLimpiar = new JButton("Limpiar");
-       
 
         lblCi.setHorizontalAlignment(0);
         lblNombre.setHorizontalAlignment(0);
@@ -93,7 +93,7 @@ double sumaS;
         centerPanel.setLayout(new BorderLayout());
 
         DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable();
+        JTable table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
 
         model.addColumn("Nombre Producto");
@@ -101,9 +101,6 @@ double sumaS;
         model.addColumn("Cantidad");
         model.addColumn("Precio Sin Iva");
         model.addColumn("Precio Total");
-
-        
-
 
         centerPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -117,19 +114,19 @@ double sumaS;
         txtTotal.setEditable(false);
         JLabel lblSubtotal = new JLabel("Subtotal:");
         JTextField txtSubtotal = new JTextField();
-        JLabel lblCreditos = new JLabel("Creditos:");
-        JTextField txtCreditos = new JTextField();
-        JLabel lblDescuento = new JLabel("Descuento:");
-        JTextField txtDescuento = new JTextField();
+
         JLabel lblIva = new JLabel("Iva:");
         JTextField txtIva = new JTextField();
         JLabel lblDineroPago = new JLabel("Dinero :");
         JTextField txtDineroPago = new JTextField();
         JLabel lblFormaPago = new JLabel("Forma de Pago:");
-        JLabel lblv1 = new JLabel("");
+
         JLabel lblv2 = new JLabel("");
         JLabel lblv3 = new JLabel("");
         JLabel lblv4 = new JLabel("");
+        JLabel lblv5 = new JLabel("");
+        JLabel lblv6 = new JLabel("");
+        JLabel lblv7 = new JLabel("");
         JLabel lblCambio = new JLabel("Cambio :");
         JTextField txtCambio = new JTextField();
 
@@ -137,14 +134,13 @@ double sumaS;
         txtCambio.setBackground(Color.CYAN);
 
         txtIva.setEditable(false);
-        txtDescuento.setEditable(false);
+
         txtSubtotal.setEditable(false);
-        txtCreditos.setEditable(false);
+
         txtCambio.setEditable(false);
 
         lblCambio.setHorizontalAlignment(0);
-        lblCreditos.setHorizontalAlignment(0);
-        lblDescuento.setHorizontalAlignment(0);
+
         lblDineroPago.setHorizontalAlignment(0);
         lblFormaPago.setHorizontalAlignment(0);
         lblIva.setHorizontalAlignment(0);
@@ -153,14 +149,13 @@ double sumaS;
 
         JButton btnAgregarProducto = new JButton("Agregar Producto");
         JButton btnEliminarProducto = new JButton("Eliminar Producto");
+        JButton btnCalcularValores = new JButton("CalcularValores");
         JButton btnImprimirFactura = new JButton("Imprimir Factura");
-        JButton btnUsarCreditos = new JButton("Usar Creditos");
+
         JButton btnRegresarAlMenu = new JButton("Regresar Al Menu");
         JButton btnNuevaVenta = new JButton("Nueva Venta");
 
-        
         JComboBox<String> txtBucadorProducto = new JComboBox<>();
-        
 
         JRadioButton rbtnEfectivo = new JRadioButton("Efectivo", true);
         JRadioButton rbtnTransferencia = new JRadioButton("Tranferencia", false);
@@ -173,48 +168,46 @@ double sumaS;
         bottomPanel.add(btnAgregarProducto);
         bottomPanel.add(btnEliminarProducto);
 
-        bottomPanel.add(lblv1);
-        bottomPanel.add(lblCreditos);
-        bottomPanel.add(txtCreditos);
+        bottomPanel.add(btnCalcularValores);
+        bottomPanel.add(lblv5);
+        bottomPanel.add(lblv6);
+
         bottomPanel.add(lblSubtotal);
         bottomPanel.add(txtSubtotal);
-        bottomPanel.add(lblDescuento);
-        bottomPanel.add(txtDescuento);
+        bottomPanel.add(lblFormaPago);
+        bottomPanel.add(lblv2);
         bottomPanel.add(lblIva);
         bottomPanel.add(txtIva);
-        bottomPanel.add(lblDineroPago);
-        bottomPanel.add(txtDineroPago);
-        bottomPanel.add(lblTotal);
-        bottomPanel.add(txtTotal);
-        bottomPanel.add(lblCambio);
-        bottomPanel.add(txtCambio);
-
-        bottomPanel.add(lblv2);
-        bottomPanel.add(lblv3);
-        bottomPanel.add(lblFormaPago);
-        bottomPanel.add(lblv4);
-
-        bottomPanel.add(btnRegresarAlMenu);
-        bottomPanel.add(btnUsarCreditos);
-
         bottomPanel.add(rbtnEfectivo);
         bottomPanel.add(rbtnTransferencia);
 
+        bottomPanel.add(lblTotal);
+        bottomPanel.add(txtTotal);
+        bottomPanel.add(lblv3);
+        bottomPanel.add(lblv4);
+        bottomPanel.add(lblDineroPago);
+        bottomPanel.add(txtDineroPago);
+
+        bottomPanel.add(btnRegresarAlMenu);
+
         bottomPanel.add(btnNuevaVenta);
+        bottomPanel.add(lblCambio);
+        bottomPanel.add(txtCambio);
         bottomPanel.add(btnImprimirFactura);
         rbtnTransferencia.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 txtDineroPago.setEditable(false);
+                txtCambio.setText("");
             }
         });
-
 
         topPanel.setBackground(Color.GRAY);
         centerPanel.setBackground(Color.GRAY);
         bottomPanel.setBackground(Color.GRAY);
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(obtenerDatosDesdeBD());
         txtBucadorProducto.setModel(comboBoxModel);
+        txtDineroPago.setText("0.0");
 
         // Agregar los paneles al panel principal
         mainPanel.add(topPanel, BorderLayout.NORTH);
@@ -226,11 +219,9 @@ double sumaS;
 
         // Hacer visible la ventana
         frame.setVisible(true);
-//------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-//-------------------------------------------------------------------------------------------------------------------------------------------------------
-
+        // -------------------------------------------------------------------------------------------------------------------------------------------------------
 
         btnRegresarAlMenu.addActionListener(new ActionListener() {
 
@@ -252,7 +243,7 @@ double sumaS;
                 String a3 = txtNombre.getText();
                 String a4 = txtCorreo.getText();
                 String a5 = txtDireccion.getText();
-                
+
                 if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty()) {
 
                     JOptionPane.showMessageDialog(null, "PARA REGISTRAR UN CLIENTE DEBE LLENAR TODOS LOS CAMPOS",
@@ -270,7 +261,6 @@ double sumaS;
                         String Cliente_Nombre = txtNombre.getText();
                         String Cliente_Correo = txtCorreo.getText();
                         String Cliente_Direccion = txtDireccion.getText();
-                        String Cliente_NumeroCreditos = txtCreditos.getText();
 
                         String checkUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
                         PreparedStatement checkUserStatement = conn.prepareStatement(checkUserQuery);
@@ -288,7 +278,6 @@ double sumaS;
                             insertUserStatement.setString(3, Cliente_Cedula);
                             insertUserStatement.setString(4, Cliente_Direccion);
                             insertUserStatement.setString(5, Cliente_Correo);
-                            insertUserStatement.setString(6, Cliente_NumeroCreditos);
 
                             // Ejecutar la consulta INSERT para agregar el usuario.
                             int rowsAffected = insertUserStatement.executeUpdate();
@@ -321,47 +310,42 @@ double sumaS;
 
         btnConsultar.addActionListener(new ActionListener() {
             String dbUrl = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
-           
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-              
-                    String clienteConsultar = txtCi.getText();
-                    boolean clienteExists = checkClienteExists(clienteConsultar);
+                String clienteConsultar = txtCi.getText();
+                boolean clienteExists = checkClienteExists(clienteConsultar);
 
-                    if (clienteExists) {
-                        try (Connection conn = DriverManager.getConnection(dbUrl)) {
-                            String getUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
-                            PreparedStatement preparedStatement = conn.prepareStatement(getUserQuery);
-                            preparedStatement.setString(1, clienteConsultar);
-                            ResultSet resultSet = preparedStatement.executeQuery();
+                if (clienteExists) {
+                    try (Connection conn = DriverManager.getConnection(dbUrl)) {
+                        String getUserQuery = "SELECT * FROM CLIENTE WHERE Cliente_Cedula = ?";
+                        PreparedStatement preparedStatement = conn.prepareStatement(getUserQuery);
+                        preparedStatement.setString(1, clienteConsultar);
+                        ResultSet resultSet = preparedStatement.executeQuery();
 
-                            if (resultSet.next()) {
-                                String cn = resultSet.getString("Cliente_Nombre");
-                                String cp = resultSet.getString("Cliente_Apellido");
-                                String cc = resultSet.getString("Cliente_Cedula");
-                                String cd = resultSet.getString("Cliente_Direccion");
-                                String co = resultSet.getString("Cliente_Correo");
-                                String cnc = resultSet.getString("Cliente_NumeroCreditos");
+                        if (resultSet.next()) {
+                            String cn = resultSet.getString("Cliente_Nombre");
+                            String cp = resultSet.getString("Cliente_Apellido");
+                            String cc = resultSet.getString("Cliente_Cedula");
+                            String cd = resultSet.getString("Cliente_Direccion");
+                            String co = resultSet.getString("Cliente_Correo");
 
-                                txtCi.setText(cc);
-                                txtApellido.setText(cp);
-                                txtNombre.setText(cn);
-                                txtCorreo.setText(co);
-                                txtDireccion.setText(cd);
-                                txtCreditos.setText(cnc);
+                            txtCi.setText(cc);
+                            txtApellido.setText(cp);
+                            txtNombre.setText(cn);
+                            txtCorreo.setText(co);
+                            txtDireccion.setText(cd);
 
-                            }
-                        } catch (SQLException o) {
-                            o.printStackTrace();
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "El cliente no existe en la base de datos.", "Error",
-                                JOptionPane.ERROR_MESSAGE);
+                    } catch (SQLException o) {
+                        o.printStackTrace();
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El cliente no existe en la base de datos.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
 
-                
             }
 
         });
@@ -375,7 +359,7 @@ double sumaS;
                 txtNombre.setText("");
                 txtCorreo.setText("");
                 txtDireccion.setText("");
-                txtCreditos.setText("");
+
             }
 
         });
@@ -404,21 +388,19 @@ double sumaS;
                             if (resultSet.next()) {
                                 String n = resultSet.getString("Inventario_Nombre_Producto");
                                 double c = resultSet.getDouble("Inventario_Costo_Producto");
-                
+
                                 // Verificar si el usuario ingresó un valor válido
-                                int cantidad= obtenerCantidadValida(frame);
+                                int cantidad = obtenerCantidadValida(frame);
                                 if (cantidad != -1) {
-                                
-                    
-                                double precio = c* cantidad;
-                                double precioS = c* cantidad * 0.12;
 
+                                    double precio = c * cantidad;
+                                    double p = c * cantidad * 0.12;
+                                    double precioS = precio - p;
 
-                                model.addRow(new Object[]{n,c,cantidad,precioS,precio});
-                                System.out.println(sumaT);
-                                
+                                    model.addRow(new Object[] { n, c, cantidad, precioS, precio });
 
-                            }}
+                                }
+                            }
                         } catch (SQLException o) {
                             o.printStackTrace();
                         }
@@ -426,7 +408,6 @@ double sumaS;
                         JOptionPane.showMessageDialog(null, "El producto no existe en la base de datos.", "Error",
                                 JOptionPane.ERROR_MESSAGE);
                     }
-
 
                 }
             }
@@ -441,12 +422,66 @@ double sumaS;
                     // Eliminar la fila seleccionada de la DefaultTableModel
                     model.removeRow(filaSeleccionada);
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Selecciona una fila para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Selecciona una fila para eliminar.", "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
-// --------------------------------------------------------------------------------------------------------------
-        
+        btnCalcularValores.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Calcula la suma de la columna "Precio Total"
+                double sumaPrecioTotal = calcularSumaColumna(model, "Precio Total");
+
+                // Calcula la suma de la columna "Precio Sin Iva"
+                double sumaPrecioSinIva = calcularSumaColumna(model, "Precio Sin Iva");
+
+                // Formatea las sumas como Strings con dos decimales
+                DecimalFormat df = new DecimalFormat("#.###");
+                String sumaTotalFormateada = df.format(sumaPrecioTotal);
+                String sumaSinIvaFormateada = df.format(sumaPrecioSinIva);
+
+                double dinero = Double.parseDouble(txtDineroPago.getText());
+                double d = dinero -  sumaPrecioTotal;
+                String dine = df.format(d);
+                double iva = sumaPrecioTotal - sumaPrecioSinIva;
+                String ivaa = df.format(iva);
+
+                // Crea JTextFields para mostrar las sumas
+                txtCambio.setText(dine);
+                txtIva.setText(ivaa);
+                txtTotal.setText(sumaTotalFormateada);
+                txtSubtotal.setText(sumaSinIvaFormateada);
+
+                sumaPrecioTotal = 0.0;
+                sumaPrecioS = 0.0;
+            }
+
+        });
+        btnNuevaVenta.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                txtCi.setText("");
+                txtNombre.setText("");
+                txtApellido.setText("");
+                txtDireccion.setText("");
+                txtCorreo.setText("");
+                txtTotal.setText("");
+                txtSubtotal.setText("");
+                txtIva.setText("");
+                txtCambio.setText("");
+                txtDineroPago.setText("");
+
+                model.setRowCount(0);
+                
+            }
+        });
+
+        // --------------------------------------------------------------------------------------------------------------
 
     }
     // --------------------------------------------------------------------------------------------------------------
@@ -482,10 +517,12 @@ double sumaS;
             return false;
         }
     }
+
     private static int obtenerCantidadValida(JFrame frame) {
         while (true) {
             // Solicitar la cantidad de productos
-            String cantidadStr = JOptionPane.showInputDialog(frame, "Ingrese la cantidad de productos:", "Cantidad de Productos", JOptionPane.QUESTION_MESSAGE);
+            String cantidadStr = JOptionPane.showInputDialog(frame, "Ingrese la cantidad de productos:",
+                    "Cantidad de Productos", JOptionPane.QUESTION_MESSAGE);
 
             // Verificar si el usuario ingresó un valor válido (entero positivo)
             try {
@@ -493,21 +530,24 @@ double sumaS;
                 if (cantidad > 0) {
                     return cantidad;
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Ingrese un número entero positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Ingrese un número entero positivo.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(frame, "Ingrese un número válido.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
-     private static String[] obtenerDatosDesdeBD() {
-        // Aquí debes realizar la conexión a tu base de datos y obtener los datos que deseas mostrar en el combo.
-        
+
+    private static String[] obtenerDatosDesdeBD() {
+        // Aquí debes realizar la conexión a tu base de datos y obtener los datos que
+        // deseas mostrar en el combo.
 
         String[] datosDeLaBD = null;
 
         try {
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:ProyectoFS\\\\database\\\\SistemaFacturacion.db");
+            Connection connection = DriverManager
+                    .getConnection("jdbc:sqlite:ProyectoFS\\\\database\\\\SistemaFacturacion.db");
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT Inventario_Nombre_Producto FROM INVENTARIO");
 
@@ -531,6 +571,19 @@ double sumaS;
         }
 
         return datosDeLaBD;
+    }
+
+    private static double calcularSumaColumna(DefaultTableModel model, String columna) {
+        double suma = 0.0;
+        int columnaIndex = model.findColumn(columna);
+
+        for (int fila = 0; fila < model.getRowCount(); fila++) {
+            Object valor = model.getValueAt(fila, columnaIndex);
+            if (valor instanceof Double) {
+                suma += (Double) valor;
+            }
+        }
+        return suma;
     }
 
     // --------------------------------------------------------------------------------------------------------------
