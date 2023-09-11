@@ -191,9 +191,9 @@ public class PInventario extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                String b1 = txtIdProducto.getText();
+                String a1 = txtIdProducto.getText();
 
-                if (b1.isEmpty()) {
+                if (a1.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "PARA ELIMINAR UN PRODUCTO DEBE LLENAR EL CAMPO CI EMPLEADO",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }else{
@@ -226,9 +226,9 @@ public class PInventario extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String b1 = txtIdProducto.getText();
+                String c1 = txtIdProducto.getText();
 
-                if (b1.isEmpty()) {
+                if (c1.isEmpty()) {
                         JOptionPane.showMessageDialog(null, "PARA CONSULTAR UN PRODUCTO DEBE LLENAR EL CAMPO CI EMPLEADO",
                                 "Error", JOptionPane.ERROR_MESSAGE);
                     }else{

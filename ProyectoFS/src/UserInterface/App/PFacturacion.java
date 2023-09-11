@@ -36,7 +36,7 @@ double sumaS;
 
         JLabel nombreCajero1 = new JLabel("");
         JLabel idCajero1 = new JLabel("");
-        JLabel vaclbl = new JLabel("");
+        JLabel vclbla = new JLabel("");
         JLabel vaclbl1 = new JLabel("");
         JLabel vaclb2 = new JLabel("");
 
@@ -56,7 +56,7 @@ double sumaS;
         JButton btnConsultar = new JButton("Consultar Cliente");
         JButton btnRegistrar = new JButton("Registrar Cliente");
         JButton btnLimpiar = new JButton("Limpiar");
-        JButton btnEditar = new JButton("Editar Cliente");
+       
 
         lblCi.setHorizontalAlignment(0);
         lblNombre.setHorizontalAlignment(0);
@@ -85,7 +85,7 @@ double sumaS;
         topPanel.add(btnLimpiar);
         topPanel.add(btnConsultar);
         topPanel.add(btnRegistrar);
-        topPanel.add(btnEditar);
+        topPanel.add(vclbla);
 
         // Crear un panel central para la lista de productos
         JPanel centerPanel = new JPanel();
@@ -93,7 +93,7 @@ double sumaS;
         centerPanel.setLayout(new BorderLayout());
 
         DefaultTableModel model = new DefaultTableModel();
-        JTable table = new JTable(model);
+        JTable table = new JTable();
         JScrollPane scrollPane = new JScrollPane(table);
 
         model.addColumn("Nombre Producto");
@@ -252,8 +252,8 @@ double sumaS;
                 String a3 = txtNombre.getText();
                 String a4 = txtCorreo.getText();
                 String a5 = txtDireccion.getText();
-                String a6 = txtCreditos.getText();
-                if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty() || a6.isEmpty()) {
+                
+                if (a1.isEmpty() || a2.isEmpty() || a3.isEmpty() || a4.isEmpty() || a5.isEmpty()) {
 
                     JOptionPane.showMessageDialog(null, "PARA REGISTRAR UN CLIENTE DEBE LLENAR TODOS LOS CAMPOS",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -301,7 +301,7 @@ double sumaS;
                                 txtNombre.setText("");
                                 txtCorreo.setText("");
                                 txtDireccion.setText("");
-                                txtCreditos.setText("");
+                                txtTelefono.setText("");
 
                             } else {
 
@@ -321,16 +321,12 @@ double sumaS;
 
         btnConsultar.addActionListener(new ActionListener() {
             String dbUrl = "jdbc:sqlite:ProyectoFS\\database\\SistemaFacturacion.db";
-            String a1 = txtCi.getText();
+           
 
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (a1.isEmpty()) {
-
-                    JOptionPane.showMessageDialog(null, "PARA CONSULTAR UN CLIENTE DEBE LLENAR EL CAMPO CI ",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
+              
                     String clienteConsultar = txtCi.getText();
                     boolean clienteExists = checkClienteExists(clienteConsultar);
 
@@ -365,7 +361,7 @@ double sumaS;
                                 JOptionPane.ERROR_MESSAGE);
                     }
 
-                }
+                
             }
 
         });
